@@ -190,6 +190,10 @@ def lambe_lambe():
 
     corpo = f'<g filter="url(#tinta)">{"".join(partes)}</g>'
     documento("alternativos/lambe-lambe.svg", "lambe-lambe", lado, lado, corpo, furos=0.3)
+    # capa do podcast: o mesmo cartaz sobre fundo preto, para as falhas de tinta não virarem
+    # transparência quando exportado em JPG/PNG 3000×3000
+    fundo = f'<rect width="{lado:.2f}" height="{lado:.2f}" fill="{preto}"/>'
+    documento("../capa/capa-podcast.svg", "capa do podcast", lado, lado, fundo + corpo, furos=0.3)
 
 
 def estencil():

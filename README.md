@@ -8,6 +8,7 @@ O site é estático (HTML + CSS, sem build e sem Jekyll).
 - `marca.html`: logo principal e alternativos, com sugestões de uso
 - `assets/logos/memoria-de-trabalho.svg`: logo principal (pente de RAM)
 - `assets/logos/alternativos/`: carimbo, lambe-lambe e estêncil, para outros materiais
+- `assets/capa/`: capa do podcast (SVG gerado pelo script; PNG e JPG 3000×3000 exportados com o Inkscape, `--export-png-color-mode=RGB_8` para sair sem transparência)
 - `scripts/gerar-logos.py`: gera todos os SVGs com o texto em curvas (sem depender de fonte instalada). Precisa de `pip install -r scripts/requirements.txt`
 - `scripts/fontes/`: Anton, Alfa Slab One, Big Shoulders Stencil Display e Special Elite (Google Fonts, licença SIL OFL)
 - `TAREFAS.md`: próximos passos do projeto

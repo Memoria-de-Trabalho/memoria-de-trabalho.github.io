@@ -7,7 +7,6 @@
 ## Marca
 
 - [ ] Converter o texto dos logos em curvas, para não depender das fontes
-- [ ] Gerar a capa do podcast em 3000×3000 a partir do lambe-lambe
 - [ ] Criar avatar e favicon quadrados a partir do logo principal
 - [ ] Exportar PNGs do logo principal (fundo transparente e fundo papel)
 
@@ -39,3 +38,4 @@
 - [x] Guia de gravação e distribuição em casa ✅ 2026-11-01
 - [x] Logos com o texto em curvas, sem depender de fonte instalada ✅ 2026-11-01
 - [x] Org Memoria-de-Trabalho no GitHub e site no ar em memoria-de-trabalho.github.io ✅ 2026-11-01
+- [x] Capa do podcast em 3000×3000 (PNG e JPG) a partir do lambe-lambe ✅ 2026-11-01
