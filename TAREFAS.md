@@ -2,8 +2,6 @@
 
 ## Próximos passos
 
-- [ ] Criar a org `memoria-de-trabalho` no GitHub (só pelo navegador) ⏫
-- [ ] Subir o repositório `memoria-de-trabalho.github.io` e ligar o GitHub Pages ⏫
 - [ ] Criar o e-mail do projeto (vai no RSS e na verificação do YouTube) ⏫
 
 ## Marca
@@ -39,3 +37,5 @@
 - [x] Opções de logo; escolhido o pente de RAM como principal ✅ 2026-11-01
 - [x] Site inicial (sobre, pautas, episódios, onde encontrar, marca) ✅ 2026-11-01
 - [x] Guia de gravação e distribuição em casa ✅ 2026-11-01
+- [x] Logos com o texto em curvas, sem depender de fonte instalada ✅ 2026-11-01
+- [x] Org Memoria-de-Trabalho no GitHub e site no ar em memoria-de-trabalho.github.io ✅ 2026-11-01
