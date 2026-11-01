@@ -262,7 +262,24 @@ def pente_de_ram():
     documento("memoria-de-trabalho.svg", "pente de RAM", largura, altura, corpo)
 
 
+def favicon():
+    """Ícone quadrado: a sigla MdT sobre os contatos do pente de RAM. Sem textura, que vira borrão em 16 px."""
+    vermelho, papel, lado = "#C8102E", "#F2EBDD", 64
+    sigla = Linha("anton", "MdT", 46)
+    base = 27 + sigla.alto / 2
+    contatos = "".join(
+        f'<rect x="{x}" y="49" width="2.6" height="8" fill="{papel}"/>'
+        for x in range(7, 57, 5) if x != 37  # o vão faz as vezes do chanfro do pente
+    )
+    corpo = (
+        f'<rect width="{lado}" height="{lado}" rx="10" fill="{vermelho}"/>'
+        + sigla.svg((lado - sigla.largura) / 2, base, papel)
+        + contatos
+    )
+    documento("../favicon/favicon.svg", "ícone", lado, lado, corpo)
+
+
 if __name__ == "__main__":
-    for gerar in (pente_de_ram, carimbo, lambe_lambe, estencil):
+    for gerar in (pente_de_ram, carimbo, lambe_lambe, estencil, favicon):
         gerar()
     print("ok:", ", ".join(sorted(str(p.relative_to(SAIDA)) for p in SAIDA.rglob("*.svg") if not p.name.startswith("."))))
