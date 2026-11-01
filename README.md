@@ -6,6 +6,6 @@ Site estático (HTML + CSS, sem build) publicado pelo GitHub Pages.
 
 - `index.html`: página principal
 - `logos.html`: opções de logo em votação
-- `assets/logos/`: logos em SVG (as fontes vêm do Google Fonts; converter texto em curvas depois da escolha)
+- `assets/logos/`: logos em SVG, gerados por `python3 scripts/gerar-logos.py` (texto enquadrado pelas métricas reais das fontes; converter em curvas depois da escolha)
 
 Para ver localmente: `python3 -m http.server` na raiz e abrir http://localhost:8000.
