@@ -34,7 +34,7 @@ h2 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 .4em; }
 
 /* topo */
 .hero { padding: 48px 0 32px; text-align: center; }
-.hero object { width: min(100%, 720px); aspect-ratio: 920 / 651; display: block; margin: 0 auto; pointer-events: none; }
+.hero object { width: min(100%, 720px); aspect-ratio: 1016 / 344; display: block; margin: 0 auto; pointer-events: none; }
 .hero .tagline { font-family: "Special Elite", "Courier New", monospace; font-size: 1.15rem; max-width: 38ch; margin: 16px auto 0; }
 
 /* seções */
@@ -63,6 +63,8 @@ footer { border-top: 3px solid var(--tinta); padding: 24px 0 48px; font-family: 
 .logo-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); border: 0; }
 .logo-card { margin: 0; background: #fff8; border: 3px solid var(--tinta); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
 .logo-card object { width: 100%; height: 260px; pointer-events: none; }
+.logo-card.principal object { height: auto; aspect-ratio: 1016 / 344; }
+.logo-card ul { margin: 0; padding-left: 1.2em; font-size: .95rem; }
 .logo-card figcaption { font-size: .95rem; }
 .logo-card figcaption b { display: block; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: 1.25rem; text-transform: uppercase; }
 .back { padding: 24px 0 48px; }

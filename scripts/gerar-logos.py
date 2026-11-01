@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Gera os SVGs de assets/logos/ com o texto enquadrado pelas métricas reais das fontes.
 
+- memoria-de-trabalho.svg: logo principal (pente de RAM)
+- alternativos/: carimbo, lambe-lambe e estêncil, para outros materiais
+
 Nada é esticado: cada linha recebe o corpo de fonte que faz a tinta ocupar exatamente a
 largura útil, e as caixas são desenhadas em volta do texto com o mesmo respiro dos dois lados.
 
@@ -28,8 +31,6 @@ METRICAS = {
         "DE TRABALHO": (38, 4812, 867, 8),
         "TRABALHO": (10, 3673, 867, 8),
         "MEMÓRIA DE TRABALHO": (38, 8625, 1101, 8),
-        "PODCAST · TECNOLOGIA": (38, 8303, 867, 8),
-        "MdT": (38, 1630, 859, 8),
     },
     "alfa": {
         "DE": (20, 1499, 778, 0),
@@ -42,8 +43,7 @@ METRICAS = {
         "PODCAST · TECNOLOGIA & CLASSE TRABALHADORA": (30, 23128, 717, 30),
         "tecnologia · trabalho · luta": (1, 14045, 693, 224),
         "PODCAST DE TRABALHADORES DA TECNOLOGIA": (30, 21489, 717, 30),
-        "MÓDULO DDR-1917 · PODCAST · TECNOLOGIA & CLASSE": (47, 25208, 900, 34),
-        "DESDE 2026": (36, 5710, 720, 24),
+        "PODCAST · TECNOLOGIA & CLASSE": (30, 15618, 717, 30),
     },
 }
 
@@ -107,7 +107,9 @@ def documento(nome, rotulo, largura, altura, corpo, furos=0.5, defs_extra=""):
         f"  <defs>{FONTES_CSS}{filtro_tinta(furos)}{defs_extra}</defs>\n"
         f"  {corpo}\n</svg>\n"
     )
-    (SAIDA / nome).write_text(svg, encoding="utf-8")
+    destino = SAIDA / nome
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    destino.write_text(svg, encoding="utf-8")
 
 
 def carimbo():
@@ -137,7 +139,7 @@ def carimbo():
         + tag.svg(x0, base3, vermelho)
         + "</g>"
     )
-    documento("01-carimbo.svg", "carimbo", largura, altura, corpo)
+    documento("alternativos/carimbo.svg", "carimbo", largura, altura, corpo)
 
 
 def lambe_lambe():
@@ -180,7 +182,7 @@ def lambe_lambe():
     partes.append(tag.svg(x0, base, preto))
 
     corpo = f'<g filter="url(#tinta)">{"".join(partes)}</g>'
-    documento("02-lambe-lambe.svg", "lambe-lambe", lado, lado, corpo, furos=0.3)
+    documento("alternativos/lambe-lambe.svg", "lambe-lambe", lado, lado, corpo, furos=0.3)
 
 
 def estencil():
@@ -204,14 +206,14 @@ def estencil():
         + tag.svg(x0, base2, papel)
         + "</g>"
     )
-    documento("03-estencil.svg", "estêncil", caixa_l + 2 * margem, caixa_a + 2 * margem, corpo)
+    documento("alternativos/estencil.svg", "estêncil", caixa_l + 2 * margem, caixa_a + 2 * margem, corpo)
 
 
 def pente_de_ram():
     vermelho = "#C8102E"
     util, respiro, lateral, margem = 840, 26, 34, 28
     l1 = Linha("anton", "MEMÓRIA DE TRABALHO", util)
-    tag = Linha("elite", "MÓDULO DDR-1917 · PODCAST · TECNOLOGIA & CLASSE", util, esp=0.08)
+    tag = Linha("elite", "PODCAST · TECNOLOGIA & CLASSE", util, esp=0.3)
 
     etiqueta_l = util + 2 * respiro
     etiqueta_a = l1.alto + 20 + tag.alto + tag.desce + 2 * respiro
@@ -246,61 +248,10 @@ def pente_de_ram():
         + contatos
         + "</g>"
     )
-    documento("04-pente-de-ram.svg", "pente de RAM", largura, altura, corpo)
-
-
-def selo():
-    preto, vermelho, c = "#111", "#C8102E", 300
-    aro_fora, aro_dentro = 252, 176
-    meio = (aro_fora + aro_dentro) / 2
-    corpo_aro = 42
-    cima = Linha("anton", "MEMÓRIA DE TRABALHO", corpo=corpo_aro)
-    baixo = Linha("anton", "PODCAST · TECNOLOGIA", corpo=corpo_aro)
-    r_cima = meio - cima.alto * 867 / 1101 / 2  # centraliza pela altura das maiúsculas, não do acento
-    r_baixo = meio + baixo.alto / 2
-    # mesmo ângulo nos dois arcos: o espaçamento compensa a diferença de comprimento
-    esp_cima = 2
-    angulo = (cima.largura + esp_cima * (len(cima.texto) - 1)) / r_cima
-    esp_baixo = (angulo * r_baixo - baixo.largura) / (len(baixo.texto) - 1)
-
-    def no_arco(linha, caminho, esp):
-        familia, peso = FONTES[linha.fonte]
-        return (
-            f'<text font-family="{familia}" font-weight="{peso}" font-size="{linha.corpo}" letter-spacing="{esp:.2f}" fill="{preto}">'
-            f'<textPath href="#{caminho}" startOffset="50%" text-anchor="middle">{linha.texto}</textPath></text>'
-        )
-
-    defs = (
-        f'<path id="arco-cima" d="M{c - r_cima:.2f},{c} A{r_cima:.2f},{r_cima:.2f} 0 0 1 {c + r_cima:.2f},{c}"/>'
-        f'<path id="arco-baixo" d="M{c - r_baixo:.2f},{c} A{r_baixo:.2f},{r_baixo:.2f} 0 0 0 {c + r_baixo:.2f},{c}"/>'
-    )
-
-    raio_estrela = 22
-    sigla = Linha("anton", "MdT", corpo=124)
-    desde = Linha("elite", "DESDE 2026", corpo=24, esp=0.14)
-    pilha = raio_estrela * 1.81 + 18 + sigla.alto + 22 + desde.alto
-    topo = c - pilha / 2
-    base_sigla = topo + raio_estrela * 1.81 + 18 + sigla.alto
-    base_desde = base_sigla + 22 + desde.alto
-
-    corpo = (
-        f'<g transform="rotate(-6 {c} {c})" filter="url(#tinta)">'
-        f'<circle cx="{c}" cy="{c}" r="272" fill="none" stroke="{preto}" stroke-width="12"/>'
-        f'<circle cx="{c}" cy="{c}" r="{aro_fora}" fill="none" stroke="{preto}" stroke-width="3"/>'
-        f'<circle cx="{c}" cy="{c}" r="{aro_dentro}" fill="none" stroke="{preto}" stroke-width="3"/>'
-        + no_arco(cima, "arco-cima", esp_cima)
-        + no_arco(baixo, "arco-baixo", esp_baixo)
-        + estrela(c - meio, c + 4, 15, preto)
-        + estrela(c + meio, c + 4, 15, preto)
-        + estrela(c, topo + raio_estrela, raio_estrela, vermelho)
-        + sigla.svg(c - sigla.largura / 2, base_sigla, preto)
-        + desde.svg(c - desde.largura / 2, base_desde, preto)
-        + "</g>"
-    )
-    documento("05-selo.svg", "selo", 600, 600, corpo, defs_extra=defs)
+    documento("memoria-de-trabalho.svg", "pente de RAM", largura, altura, corpo)
 
 
 if __name__ == "__main__":
-    for gerar in (carimbo, lambe_lambe, estencil, pente_de_ram, selo):
+    for gerar in (pente_de_ram, carimbo, lambe_lambe, estencil):
         gerar()
-    print("ok:", ", ".join(sorted(p.name for p in SAIDA.glob("[0-9]*.svg"))))
+    print("ok:", ", ".join(sorted(str(p.relative_to(SAIDA)) for p in SAIDA.rglob("*.svg") if not p.name.startswith("."))))
