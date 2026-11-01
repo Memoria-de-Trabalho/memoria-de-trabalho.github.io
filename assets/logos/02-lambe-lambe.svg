@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Memória de Trabalho — lambe-lambe">
+  <defs><style>@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&amp;family=Anton&amp;family=Big+Shoulders+Stencil+Display:wght@900&amp;family=Saira+Stencil+One&amp;family=Special+Elite&amp;display=swap");</style><filter id="ink" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="4" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="speck"/><feColorMatrix in="speck" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -16 0 0 0 12.4" result="mask"/><feComposite in="rough" in2="mask" operator="in"/></filter></defs>
+  <g filter="url(#ink)">
+    <rect x="30" y="30" width="740" height="740" fill="#FFE600" stroke="#111" stroke-width="28"/>
+    <text x="120" y="140" font-family="'Alfa Slab One', serif" font-size="44" textLength="560" lengthAdjust="spacing" fill="#111">— PODCAST —</text>
+    <text x="80" y="335" font-family="'Alfa Slab One', serif" font-size="168" textLength="640" lengthAdjust="spacingAndGlyphs" fill="#111">MEMÓRIA</text>
+    <rect x="80" y="368" width="640" height="92" fill="#111"/>
+    <text x="400" y="438" text-anchor="middle" font-family="'Alfa Slab One', serif" font-size="72" fill="#FFE600">★ DE ★</text>
+    <text x="80" y="620" font-family="'Alfa Slab One', serif" font-size="150" textLength="640" lengthAdjust="spacingAndGlyphs" fill="#E5142A">TRABALHO</text>
+    <text x="120" y="705" font-family="'Special Elite', 'Courier New', monospace" font-size="34" textLength="560" lengthAdjust="spacing" fill="#111">tecnologia · trabalho · luta</text>
+  </g>
+</svg>

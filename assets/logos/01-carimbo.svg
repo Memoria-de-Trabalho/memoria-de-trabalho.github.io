@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" role="img" aria-label="Memória de Trabalho — carimbo">
+  <defs><style>@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&amp;family=Anton&amp;family=Big+Shoulders+Stencil+Display:wght@900&amp;family=Saira+Stencil+One&amp;family=Special+Elite&amp;display=swap");</style><filter id="ink" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="warp"/><feDisplacementMap in="SourceGraphic" in2="warp" scale="4" xChannelSelector="R" yChannelSelector="G" result="rough"/><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="speck"/><feColorMatrix in="speck" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -12 0 0 0 8.6" result="mask"/><feComposite in="rough" in2="mask" operator="in"/></filter></defs>
+  <g transform="rotate(-3 450 230)" filter="url(#ink)" fill="#C8102E">
+    <rect x="40" y="40" width="820" height="380" rx="6" fill="none" stroke="#C8102E" stroke-width="12"/>
+    <rect x="62" y="62" width="776" height="336" fill="none" stroke="#C8102E" stroke-width="3"/>
+    <text x="90" y="234" font-family="Anton, Impact, sans-serif" font-size="160" textLength="720" lengthAdjust="spacingAndGlyphs">MEMÓRIA</text>
+    <text x="90" y="346" font-family="Anton, Impact, sans-serif" font-size="112" textLength="720" lengthAdjust="spacingAndGlyphs">DE TRABALHO</text>
+    <rect x="90" y="358" width="720" height="3"/>
+    <text x="90" y="384" font-family="'Special Elite', 'Courier New', monospace" font-size="22" textLength="720" lengthAdjust="spacing">★ PODCAST ★ TECNOLOGIA &amp; CLASSE TRABALHADORA ★</text>
+  </g>
+</svg>
