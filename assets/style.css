@@ -68,3 +68,37 @@ footer { border-top: 3px solid var(--tinta); padding: 24px 0 48px; font-family: 
 .logo-card figcaption { font-size: .95rem; }
 .logo-card figcaption b { display: block; font-family: Anton, Impact, sans-serif; font-weight: 400; font-size: 1.25rem; text-transform: uppercase; }
 .back { padding: 24px 0 48px; }
+
+/* artigos */
+.topo { display: flex; flex-wrap: wrap; gap: 6px 20px; padding-top: 20px; padding-bottom: 4px; font-family: "Special Elite", "Courier New", monospace; }
+.topo a { color: var(--tinta); text-decoration: none; }
+.topo a:first-child { font-family: Anton, Impact, sans-serif; text-transform: uppercase; color: var(--vermelho); margin-right: auto; }
+.topo a:hover { text-decoration: underline; }
+
+.lista-artigos { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.cartao-artigo { border: 3px solid var(--tinta); background: #fff8; padding: 16px 18px; }
+.cartao-artigo h3 { font-size: 1.6rem; margin: 6px 0 8px; }
+.cartao-artigo h3 a { color: var(--tinta); text-decoration: none; }
+.cartao-artigo h3 a:hover { color: var(--vermelho); }
+.cartao-artigo p { margin: 0; }
+.mais { margin: 20px 0 0; font-weight: 600; }
+
+.artigo { max-width: 70ch; margin: 0 auto; padding: 24px 0 48px; }
+.artigo h1 { font-size: clamp(2.4rem, 8vw, 4.2rem); margin: .15em 0 .25em; }
+.artigo .linha-fina { font-size: 1.25rem; line-height: 1.5; margin: 0 0 12px; }
+.artigo .meta { font-family: "Special Elite", "Courier New", monospace; color: var(--suave); font-size: .95rem; border-bottom: 3px solid var(--tinta); padding-bottom: 16px; margin-bottom: 8px; }
+.artigo h2 { font-size: clamp(1.6rem, 4.5vw, 2.2rem); margin: 1.6em 0 .4em; }
+.artigo h3 { font-size: 1.35rem; margin: 1.4em 0 .4em; }
+.artigo h2:first-of-type + ul { background: var(--amarelo); border: 3px solid var(--tinta); padding: 14px 18px 14px 36px; }
+.artigo li { margin: .35em 0; }
+.artigo blockquote { margin: 1.2em 0; padding: 4px 18px; border-left: 6px solid var(--vermelho); background: #fff8; }
+.artigo code { font-size: .92em; background: #0000000d; padding: 1px 4px; }
+.tabela { overflow-x: auto; margin: 1.2em 0; }
+.artigo table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+.artigo th, .artigo td { border: 2px solid var(--tinta); padding: 8px 10px; text-align: left; vertical-align: top; }
+.artigo th { background: var(--tinta); color: var(--papel); font-weight: 600; }
+.artigo .voltar { margin-top: 2.4em; font-weight: 600; }
+@media (max-width: 480px) {
+  .artigo table { font-size: .85rem; }
+  .artigo th, .artigo td { padding: 6px 7px; }
+}
