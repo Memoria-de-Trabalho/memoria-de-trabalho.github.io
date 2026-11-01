@@ -1,56 +1,45 @@
 #!/usr/bin/env python3
-"""Gera os SVGs de assets/logos/ com o texto enquadrado pelas métricas reais das fontes.
+"""Gera os SVGs de assets/logos/ com todo o texto convertido em curvas.
 
 - memoria-de-trabalho.svg: logo principal (pente de RAM)
 - alternativos/: carimbo, lambe-lambe e estêncil, para outros materiais
 
-Nada é esticado: cada linha recebe o corpo de fonte que faz a tinta ocupar exatamente a
-largura útil, e as caixas são desenhadas em volta do texto com o mesmo respiro dos dois lados.
+Os SVGs não dependem de fonte instalada nem de internet: cada linha é montada pelo HarfBuzz
+(com o kerning da fonte) a partir dos arquivos em scripts/fontes/ e desenhada como <path>.
+A caixa de tinta de cada linha é medida nas próprias curvas, então o enquadramento é exato
+em qualquer programa (navegador, Finder, Figma, Illustrator, Inkscape).
 
-Métricas medidas no navegador com canvas.measureText a 1000px, em milésimos do corpo:
-(início da tinta, fim da tinta, altura acima da linha de base, descida abaixo dela).
-Se mudar algum texto, meça de novo.
-
-Uso: python3 scripts/gerar-logos.py
+Uso:
+    python3 -m pip install -r scripts/requirements.txt
+    python3 scripts/gerar-logos.py
 """
 import math
 from pathlib import Path
 
-SAIDA = Path(__file__).resolve().parent.parent / "assets" / "logos"
+import uharfbuzz as hb
+from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.svgPathPen import SVGPathPen
+from fontTools.pens.transformPen import TransformPen
+from fontTools.ttLib import TTFont
 
-FONTES = {
-    "anton": ("Anton, Impact, sans-serif", 400),
-    "alfa": ("'Alfa Slab One', serif", 400),
-    "estencil": ("'Big Shoulders Stencil Display', sans-serif", 900),
-    "elite": ("'Special Elite', 'Courier New', monospace", 400),
+RAIZ = Path(__file__).resolve().parent
+SAIDA = RAIZ.parent / "assets" / "logos"
+
+ARQUIVOS = {
+    "anton": "Anton-Regular.ttf",
+    "alfa": "AlfaSlabOne-Regular.ttf",
+    "estencil": "BigShouldersStencilDisplay-Black.ttf",
+    "elite": "SpecialElite-Regular.ttf",
 }
+_fontes = {}
 
-METRICAS = {
-    "anton": {
-        "MEMÓRIA": (38, 3564, 1101, 8),
-        "DE TRABALHO": (38, 4812, 867, 8),
-        "TRABALHO": (10, 3673, 867, 8),
-        "MEMÓRIA DE TRABALHO": (38, 8625, 1101, 8),
-    },
-    "alfa": {
-        "DE": (20, 1499, 778, 0),
-        "PODCAST": (20, 5302, 792, 14),
-    },
-    "estencil": {
-        "MEMÓRIA DE TRABALHO": (40, 8657, 979, 10),
-    },
-    "elite": {
-        "PODCAST · TECNOLOGIA & CLASSE TRABALHADORA": (30, 23128, 717, 30),
-        "tecnologia · trabalho · luta": (1, 14045, 693, 224),
-        "PODCAST DE TRABALHADORES DA TECNOLOGIA": (30, 21489, 717, 30),
-        "PODCAST · TECNOLOGIA & CLASSE": (30, 15618, 717, 30),
-    },
-}
 
-FONTES_CSS = (
-    '<style>@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&amp;family=Anton'
-    '&amp;family=Big+Shoulders+Stencil+Display:wght@900&amp;family=Special+Elite&amp;display=block");</style>'
-)
+def fonte(nome):
+    if nome not in _fontes:
+        caminho = RAIZ / "fontes" / ARQUIVOS[nome]
+        dados = caminho.read_bytes()
+        _fontes[nome] = (TTFont(caminho), hb.Font(hb.Face(dados)))
+    return _fontes[nome]
 
 
 def filtro_tinta(furos):
@@ -69,25 +58,43 @@ def filtro_tinta(furos):
 
 
 class Linha:
-    """Uma linha de texto com corpo calculado para a tinta ter `largura` (com espaçamento `esp` em frações do corpo)."""
+    """Uma linha de texto em curvas, com corpo calculado para a tinta ter `largura`.
 
-    def __init__(self, fonte, texto, largura=None, corpo=None, esp=0.0):
-        self.fonte, self.texto, self.esp = fonte, texto, esp
-        ini, fim, alto, desce = METRICAS[fonte][texto]
-        unidade = (fim - ini) / 1000 + esp * (len(texto) - 1)
-        self.corpo = corpo if corpo else largura / unidade
-        self.largura = unidade * self.corpo
-        self.recuo = ini * self.corpo / 1000
-        self.alto = alto * self.corpo / 1000
-        self.desce = max(desce, 0) * self.corpo / 1000
+    `esp` é o espaçamento extra entre letras, em frações do corpo.
+    """
+
+    def __init__(self, nome_fonte, texto, largura=None, corpo=None, esp=0.0):
+        tt, hb_font = fonte(nome_fonte)
+        upem = tt["head"].unitsPerEm
+        buf = hb.Buffer()
+        buf.add_str(texto)
+        buf.guess_segment_properties()
+        hb.shape(hb_font, buf)
+
+        glifos, nomes = tt.getGlyphSet(), tt.getGlyphOrder()
+        caneta = SVGPathPen(glifos, ntos=lambda v: ("%.1f" % v).rstrip("0").rstrip("."))
+        limites = BoundsPen(glifos)
+        x = 0
+        for info, pos in zip(buf.glyph_infos, buf.glyph_positions):
+            glifo = glifos[nomes[info.codepoint]]
+            deslocamento = (1, 0, 0, 1, x + pos.x_offset, pos.y_offset)
+            glifo.draw(TransformPen(caneta, deslocamento))
+            glifo.draw(TransformPen(limites, deslocamento))
+            x += pos.x_advance + esp * upem
+        xmin, ymin, xmax, ymax = limites.bounds
+
+        self.corpo = corpo if corpo else largura * upem / (xmax - xmin)
+        escala = self.corpo / upem
+        self.escala, self.caminho = escala, caneta.getCommands()
+        self.largura = (xmax - xmin) * escala
+        self.recuo = xmin * escala
+        self.alto = ymax * escala
+        self.desce = max(-ymin, 0) * escala
 
     def svg(self, x_tinta, base, cor):
-        familia, peso = FONTES[self.fonte]
-        texto = self.texto.replace("&", "&amp;")
-        espaco = f' letter-spacing="{self.esp * self.corpo:.2f}"' if self.esp else ""
         return (
-            f'<text x="{x_tinta - self.recuo:.2f}" y="{base:.2f}" font-family="{familia}" font-weight="{peso}" '
-            f'font-size="{self.corpo:.2f}"{espaco} fill="{cor}">{texto}</text>'
+            f'<path transform="translate({x_tinta - self.recuo:.2f} {base:.2f}) scale({self.escala:.5f} {-self.escala:.5f})" '
+            f'fill="{cor}" d="{self.caminho}"/>'
         )
 
 
@@ -104,7 +111,7 @@ def documento(nome, rotulo, largura, altura, corpo, furos=0.5, defs_extra=""):
     svg = (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {largura:.0f} {altura:.0f}" role="img" '
         f'aria-label="Memória de Trabalho — {rotulo}">\n'
-        f"  <defs>{FONTES_CSS}{filtro_tinta(furos)}{defs_extra}</defs>\n"
+        f"  <defs>{filtro_tinta(furos)}{defs_extra}</defs>\n"
         f"  {corpo}\n</svg>\n"
     )
     destino = SAIDA / nome
@@ -113,7 +120,7 @@ def documento(nome, rotulo, largura, altura, corpo, furos=0.5, defs_extra=""):
 
 
 def carimbo():
-    vermelho, util, respiro, vao, margem = "#C8102E", 720, 34, 22, 44
+    vermelho, util, respiro, vao, margem = "#C8102E", 720, 34, 22, 60
     l1 = Linha("anton", "MEMÓRIA", util)
     l2 = Linha("anton", "DE TRABALHO", util)
     tag = Linha("elite", "PODCAST · TECNOLOGIA & CLASSE TRABALHADORA", util, esp=0.06)
@@ -211,7 +218,7 @@ def estencil():
 
 def pente_de_ram():
     vermelho = "#C8102E"
-    util, respiro, lateral, margem = 840, 26, 34, 28
+    util, respiro, lateral, margem = 840, 26, 34, 48
     l1 = Linha("anton", "MEMÓRIA DE TRABALHO", util)
     tag = Linha("elite", "PODCAST · TECNOLOGIA & CLASSE", util, esp=0.3)
 

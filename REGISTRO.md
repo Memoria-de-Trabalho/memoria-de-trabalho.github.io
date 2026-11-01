@@ -6,7 +6,7 @@ Decisões e marcos do projeto, do mais recente para o mais antigo.
 
 - **Logo principal:** pente de RAM (a caixa é um módulo de memória, trocadilho com *working memory*), com a linha "PODCAST · TECNOLOGIA & CLASSE". O texto "Módulo DDR-1917" saiu.
 - **Logos alternativos:** carimbo, lambe-lambe e estêncil ficam para outros materiais (capa do podcast, adesivos, banners, camisetas). O selo redondo foi descartado; ele continua no histórico do git.
-- **Desenho dos logos:** gerados por `scripts/gerar-logos.py`, com o texto enquadrado pelas métricas reais das fontes (Anton, Alfa Slab One, Big Shoulders Stencil Display, Special Elite). A primeira versão esticava as letras e ficou mal enquadrada.
+- **Desenho dos logos:** gerados por `scripts/gerar-logos.py`, com todo o texto convertido em curvas a partir das fontes em `scripts/fontes/`. As versões anteriores dependiam do Google Fonts: abriam certas no navegador, mas no Finder e em programas de design caíam numa fonte reserva e o texto vazava da caixa.
 - **Paleta:** vermelho `#C8102E`, preto `#141414`, papel `#F2EBDD`, amarelo `#FFE600`.
 
 ## 2026-10-31
