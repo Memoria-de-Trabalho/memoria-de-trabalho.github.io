@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Gera a seção de artigos do site a partir dos Markdown em conteudo/artigos/.
 
-Também carimba a versão do CSS (`style.css?v=<hash>`) em todas as páginas, inclusive index.html e marca.html.
+Também carimba a versão do CSS (`style.css?v=<hash>`) nas páginas que gera e no index.html.
 
 Para cada `conteudo/artigos/<slug>.md` escreve `artigos/<slug>/index.html`, refaz o índice
 `artigos/index.html` e a lista de artigos da página inicial (entre os marcadores
@@ -38,7 +38,7 @@ SITE = "https://memoria-de-trabalho.github.io"
 MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
          "setembro", "outubro", "novembro", "dezembro"]
 OBRIGATORIOS = ("titulo", "linha_fina", "eixo", "data", "conferido", "resumo")
-PAGINAS_FIXAS = (RAIZ / "index.html", RAIZ / "marca.html")
+PAGINAS_FIXAS = (RAIZ / "index.html",)  # artes/index.html é feita pelo gerar-artes.py
 
 
 def versao_css():
@@ -101,7 +101,7 @@ def cabeca(titulo, descricao, prefixo, url):
   <nav class="topo wrap">
     <a href="{prefixo}">Memória de Trabalho</a>
     <a href="{prefixo}artigos/">Artigos</a>
-    <a href="{prefixo}marca.html">Marca</a>
+    <a href="{prefixo}artes/">Artes</a>
   </nav>
 """
 

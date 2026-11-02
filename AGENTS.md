@@ -8,7 +8,7 @@ Site e identidade visual do Memória de Trabalho, podcast de e para profissionai
 - **Estilo de escrita:** todo texto publicado segue o [guia de estilo](docs/ESTILO.md). Leia antes de escrever qualquer coisa que vá para o site. O resumo: direto, franco, carismático, sem pose e com humor e ironia que miram para cima. Sem travessão, sem a fórmula "não é X, é Y", sem enumerar tudo em três.
 - **Fatos com fonte:** todo número e toda afirmação contestável têm link na seção "Fontes" do artigo e data de conferência no cabeçalho. O que não deu para confirmar não entra, ou entra com a ressalva escrita.
 - **Site estático puro:** HTML e CSS, sem framework, sem npm e sem Jekyll (por isso o `.nojekyll`). As páginas de artigo são geradas por script Python, e o resultado é commitado.
-- **Não edite à mão o que é gerado:** `artigos/`, o bloco entre `<!-- artigos:inicio -->` e `<!-- artigos:fim -->` do `index.html`, o `?v=` do CSS nas páginas e os SVGs de `assets/logos/`, `assets/capa/` e `assets/favicon/`. Edite a fonte e rode o script.
+- **Não edite à mão o que é gerado:** `artigos/`, `artes/`, `assets/artes/`, o bloco entre `<!-- artigos:inicio -->` e `<!-- artigos:fim -->` do `index.html`, o `?v=` do CSS nas páginas e os SVGs de `assets/logos/`, `assets/capa/` e `assets/favicon/`. Edite a fonte e rode o script.
 - **Identidade visual:** vermelho `#C8102E`, preto `#141414`, papel `#F2EBDD`, amarelo `#FFE600`; títulos em Anton, detalhes em Special Elite, texto em Inter (tokens em `assets/style.css`). Logos e ícones têm o texto em curvas: nunca volte a usar `<text>` com fonte importada em SVG, porque fora do navegador o texto vaza da caixa.
 - **Acessibilidade e celular:** a página tem que funcionar em 375 px sem rolagem lateral, com contraste bom e `alt`/`aria-label` nas imagens.
 
@@ -25,7 +25,7 @@ O repositório é público, mas a pasta do projeto tem coisas que **não** podem
 | Caminho | O que é |
 |---|---|
 | `index.html` | Página inicial: sobre, pautas, artigos (bloco gerado), episódios, onde ouvir |
-| `marca.html` | Logo principal, alternativos e sugestões de uso |
+| `artes/index.html` | Artes para baixar: logos em várias larguras, capa, ícone e papéis de parede (gerada, não editar) |
 | `conteudo/artigos/<slug>.md` | **Fonte dos artigos**, em Markdown com cabeçalho (`titulo`, `linha_fina`, `eixo`, `data`, `ordem`, `conferido`, `resumo`, `rascunho`) |
 | `artigos/` | Páginas geradas dos artigos e o índice (não editar) |
 | `docs/ESTILO.md` | Guia de estilo de escrita |
@@ -34,6 +34,7 @@ O repositório é público, mas a pasta do projeto tem coisas que **não** podem
 | `scripts/gerar-artigos.py` | Gera as páginas de artigos, o índice, o bloco da página inicial e a versão do CSS |
 | `scripts/revisar-estilo.py` | Confere os artigos contra o guia de estilo; o gerador roda ele antes e para se houver erro |
 | `scripts/gerar-logos.py` | Gera logos, capa e favicon com o texto em curvas (fontes em `scripts/fontes/`) |
+| `scripts/gerar-artes.py` | Exporta as artes em PNG e os papéis de parede em JPG para `assets/artes/` e gera a página `artes/` (precisa do Inkscape) |
 | `TAREFAS.md`, `REGISTRO.md` | Próximos passos e decisões; o vault do Obsidian do Lucas lê esses arquivos |
 
 ## Ambiente
@@ -41,7 +42,8 @@ O repositório é público, mas a pasta do projeto tem coisas que **não** podem
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 .venv/bin/python scripts/gerar-artigos.py     # artigos
-.venv/bin/python scripts/gerar-logos.py       # marca
+.venv/bin/python scripts/gerar-logos.py       # marca (SVGs)
+.venv/bin/python scripts/gerar-artes.py       # downloads e papéis de parede (depois do gerar-logos)
 python3 scripts/revisar-estilo.py             # só a revisão de estilo
 python3 -m http.server 8000                   # ver em http://localhost:8000
 ```
@@ -64,4 +66,3 @@ A pasta fica num disco externo do macOS, que cria arquivos ocultos `._*` ao lado
 ## Contexto
 
 - O nome vem do duplo sentido: memória de trabalho é a *working memory* do computador e a memória de quem trabalha. Os quatro eixos de pauta são Trabalho, Tecnologia, Organização e Soberania.
-- Os primeiros artigos são versões, para o público de tecnologia, de textos que o Lucas escreveu para a série de letramento digital de outro coletivo, mais quatro temas que estavam só em proposta.

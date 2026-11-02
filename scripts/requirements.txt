@@ -1,3 +1,4 @@
 fonttools>=4.50
 uharfbuzz>=0.40
 markdown>=3.5
+pillow>=10

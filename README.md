@@ -5,7 +5,7 @@ Podcast de e para profissionais de tecnologia de esquerda: trabalho, tecnologia,
 O site é estático (HTML + CSS, sem build e sem Jekyll).
 
 - `index.html`: página principal
-- `marca.html`: logo principal e alternativos, com sugestões de uso
+- `artes/`: página com logos, capa, ícone e papéis de parede para baixar (gerada por `scripts/gerar-artes.py`, arquivos em `assets/artes/`)
 - `conteudo/artigos/`: fonte dos artigos em Markdown; `artigos/` é gerado por `scripts/gerar-artigos.py`
 - `docs/ESTILO.md`: guia de estilo de escrita (vale para todo texto publicado)
 - `AGENTS.md` e `.claude/`: instruções, skills e agente revisor para quem desenvolve ou escreve com agentes
