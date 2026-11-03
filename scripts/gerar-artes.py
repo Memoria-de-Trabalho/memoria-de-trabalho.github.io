@@ -10,13 +10,15 @@ Parte dos SVGs feitos por scripts/gerar-logos.py e cria, em assets/artes/:
 Precisa do Inkscape na linha de comando (para rasterizar com o filtro de tinta) e do Pillow
 (para converter em JPG). Rode depois do gerar-logos.py:
 
-    python3 scripts/gerar-artes.py
+    python3 scripts/gerar-artes.py              # tudo (uns 40 segundos)
+    python3 scripts/gerar-artes.py --so-pagina  # só a página, quando nenhuma arte mudou
 """
 import html
 import importlib.util
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -178,13 +180,14 @@ def gerar_pagina(art):
             + f'          <h3>Capa do podcast</h3>\n          <p>Quadrada, no tamanho que as plataformas de podcast pedem.</p>\n          <p class="baixar">{capa}</p>\n        </li>\n'
             + '        <li class="arte">\n          <div class="arte-previa"><img src="../assets/favicon/favicon.svg" alt="Ícone MdT" loading="lazy"></div>\n'
             + f'          <h3>Ícone MdT</h3>\n          <p>Para foto de perfil, aba do navegador e atalho na tela inicial.</p>\n          <p class="baixar">{icone}</p>\n        </li>\n'
-            + '      </ul>\n    </section>\n' + art.RODAPE)
+            + '      </ul>\n    </section>\n' + art.rodape("../"))
 
 
-def main():
+def main(argumentos):
     art = artigos()
-    with tempfile.TemporaryDirectory() as tmp:
-        gerar_arquivos(Path(tmp))
+    if "--so-pagina" not in argumentos:  # --so-pagina refaz só o HTML, sem reexportar as imagens
+        with tempfile.TemporaryDirectory() as tmp:
+            gerar_arquivos(Path(tmp))
     PAGINA.parent.mkdir(exist_ok=True)
     PAGINA.write_text(gerar_pagina(art), encoding="utf-8")
     total = sum(f.stat().st_size for f in SAIDA.rglob("*") if f.is_file() and not f.name.startswith("."))
@@ -193,4 +196,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])

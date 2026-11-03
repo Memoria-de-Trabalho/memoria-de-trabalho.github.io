@@ -18,3 +18,10 @@ O site é estático (HTML + CSS, sem build e sem Jekyll).
 - `REGISTRO.md`: decisões e histórico
 
 Para ver localmente: `python3 -m http.server` na raiz e abrir http://localhost:8000.
+
+## Expediente e contato
+
+- **Conteúdo e tecnicalidades:** Lucas Rafaldini
+- **Contato:** [thothandson@icloud.com](mailto:thothandson@icloud.com), o e-mail da Thoth & Son, empresa do Lucas
+
+É o contato principal para apoio, patrocínio, dúvidas e reclamações.

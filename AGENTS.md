@@ -5,6 +5,8 @@ Site e identidade visual do Memória de Trabalho, podcast de e para profissionai
 ## Regras
 
 - **Idioma:** textos do site, artigos, commits e documentação em português do Brasil.
+- **Commits em nome da organização:** autor e committer são sempre `Memória de Trabalho <noreply@memoria-de-trabalho.github.io>` (já configurado no `git config` local do repositório). Nada de nome pessoal e nada de linha de coautoria (`Co-Authored-By`), nem de gente nem de IA.
+- **Contato público:** conteúdo e tecnicalidades com Lucas Rafaldini, pelo e-mail thothandson@icloud.com (Thoth & Son, empresa dele). Está no expediente da página inicial, no rodapé das páginas geradas e no README.
 - **Estilo de escrita:** todo texto publicado segue o [guia de estilo](docs/ESTILO.md). Leia antes de escrever qualquer coisa que vá para o site. O resumo: direto, franco, carismático, sem pose e com humor e ironia que miram para cima. Sem travessão, sem a fórmula "não é X, é Y", sem enumerar tudo em três.
 - **Fatos com fonte:** todo número e toda afirmação contestável têm link na seção "Fontes" do artigo e data de conferência no cabeçalho. O que não deu para confirmar não entra, ou entra com a ressalva escrita.
 - **Site estático puro:** HTML e CSS, sem framework, sem npm e sem Jekyll (por isso o `.nojekyll`). As páginas de artigo são geradas por script Python, e o resultado é commitado.
@@ -24,7 +26,7 @@ O repositório é público, mas a pasta do projeto tem coisas que **não** podem
 
 | Caminho | O que é |
 |---|---|
-| `index.html` | Página inicial: sobre, pautas, artigos (bloco gerado), episódios, onde ouvir |
+| `index.html` | Página inicial: sobre, pautas, artigos (bloco gerado), episódios, onde ouvir, expediente |
 | `artes/index.html` | Artes para baixar: logos em várias larguras, capa, ícone e papéis de parede (gerada, não editar) |
 | `conteudo/artigos/<slug>.md` | **Fonte dos artigos**, em Markdown com cabeçalho (`titulo`, `linha_fina`, `eixo`, `data`, `ordem`, `conferido`, `resumo`, `rascunho`) |
 | `artigos/` | Páginas geradas dos artigos e o índice (não editar) |

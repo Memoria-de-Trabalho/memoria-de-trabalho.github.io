@@ -106,13 +106,15 @@ def cabeca(titulo, descricao, prefixo, url):
 """
 
 
-RODAPE = """    <footer>
-      Memória de Trabalho · feito por trabalhadores · achou um erro? Escreva para a gente e a gente corrige.
-    </footer>
-  </main>
-</body>
-</html>
-"""
+CONTATO = "thothandson@icloud.com"
+
+
+def rodape(prefixo):
+    return ('    <footer>\n'
+            f'      Memória de Trabalho · feito por trabalhadores · achou um erro? '
+            f'<a href="mailto:{CONTATO}">Escreva para a gente</a> e a gente corrige · '
+            f'<a href="{prefixo}#expediente">expediente</a>\n'
+            '    </footer>\n  </main>\n</body>\n</html>\n')
 
 
 def cartao(a, prefixo):
@@ -137,7 +139,7 @@ def pagina_artigo(a):
             + f'      <p class="meta">{meta}</p>\n'
             + html_do_corpo(a["corpo"])
             + '\n      <p class="voltar"><a href="../">← todos os artigos</a></p>\n    </article>\n'
-            + RODAPE)
+            + rodape("../../"))
 
 
 def pagina_indice(artigos):
@@ -150,7 +152,7 @@ def pagina_indice(artigos):
             + 'Cada um pode virar pauta de episódio, e as sugestões são bem-vindas.</p>\n    </header>\n'
             + '    <section>\n      <ul class="lista-artigos">\n'
             + "".join(cartao(a, "") for a in artigos)
-            + '      </ul>\n    </section>\n' + RODAPE)
+            + '      </ul>\n    </section>\n' + rodape("../"))
 
 
 def atualizar_inicio(artigos):
